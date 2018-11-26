@@ -329,24 +329,24 @@ var prefix = "$";
        if(message.content === prefix + "close") {
                            if(!message.channel.guild) return message.reply('** This command only for servers**');
 
-   if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply(' **__ظ„ظٹط³ ظ„ط¯ظٹظƒ طµظ„ط§ط­ظٹط§طھ__**');
+   if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply(' **:no_entry_sign:تم اغلاق الروم**');
               message.channel.overwritePermissions(message.guild.id, {
             SEND_MESSAGES: false
 
               }).then(() => {
-                  message.reply("**__طھظ… طھظ‚ظپظٹظ„ ط§ظ„ط´ط§طھ__ :white_check_mark: **")
+                  message.reply("**تم اغلاق الروم:no_entry_sign:**")
               });
                 }
 //FIRE BOT
     if(message.content === prefix + "open") {
                         if(!message.channel.guild) return message.reply('** This command only for servers**');
 
-   if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('**__ظ„ظٹط³ ظ„ط¯ظٹظƒ طµظ„ط§ط­ظٹط§طھ__**');
+   if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('**:o: تم فتح الروم**');
               message.channel.overwritePermissions(message.guild.id, {
             SEND_MESSAGES: true
 
               }).then(() => {
-                  message.reply("**__طھظ… ظپطھط­ ط§ظ„ط´ط§طھ__:white_check_mark:**")
+                  message.reply("**:o: تم فتح الروم**")
               });
     }
        
