@@ -334,7 +334,7 @@ var prefix = "$";
             SEND_MESSAGES: false
 
               }).then(() => {
-                  message.reply("**تم اغلاق الروم:no_entry_sign:**")
+                  message.reply("**:no_entry_sign:تم اغلاق الروم**")
               });
                 }
 //FIRE BOT
