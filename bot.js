@@ -352,6 +352,187 @@ var prefix = "$";
        
 });
 
+client.on('message', message => {
+ var prefix = "$"
+    if(message.content.startsWith(prefix + 'new')) {
+        let args = message.content.split(' ').slice(1).join(' ');
+        let support = message.guild.roles.find("name","Support Team");
+        let ticketsStation = message.guild.channels.find("name", "TICKETS");
+        if(!args) {
+            return message.channel.send('الرجاء كتابة سبب التذكرة');
+        };
+                if(!support) {
+                    return message.channel.send('**Please make sure that `Support Team` role exists and it\'s not duplicated.**');
+                };
+            if(!ticketsStation) {
+                message.guild.createChannel("Ticket", "category");
+            };
+                message.guild.createChannel(`𝑻𝑰𝑪𝑲𝑬𝑻`, "text").then(ticket => {
+                    message.delete()
+                        message.channel.send(`تم انشاء تذكرتك. [ ${ticket} ]`);
+                    ticket.setParent(ticketsStation);
+                    ticketsStation.setPosition(1);
+                        ticket.overwritePermissions(message.guild.id, {
+                            SEND_MESSAGES: false,
+                            READ_MESSAGES: false
+                        });
+                            ticket.overwritePermissions(support.id, {
+                                SEND_MESSAGES: true,
+                                READ_MESSAGES: true
+                            });
+                                ticket.overwritePermissions(message.author.id, {
+                                    SEND_MESSAGES: true,
+                                    READ_MESSAGES: true
+                                });
+                    let embed = new Discord.RichEmbed()
+                                .setTitle('**تذكرة جديدة.**')
+                                .setColor("RANDOM")
+                                .setThumbnail(`${message.author.avatarURL}`)
+                                .addField('سبب التذكرة', args)
+                                .addField('صاحب التذكرة', message.author)
+                                .addField('الروم', `<#${message.channel.id}>`);
+ 
+                                ticket.sendEmbed(embed);
+                }) .catch();
+    }
+    if(message.content.startsWith(prefix + 'close')) {
+            if(!message.member.hasPermission("ADMINISTRATOR")) return;
+        if(!message.channel.name.startsWith("𝑻𝑰𝑪𝑲𝑬𝑻")) {
+            return;
+        };  
+                let embed = new Discord.RichEmbed()
+                    .setAuthor("هل تريد فعلآ اغلاق التذكرة ؟.")
+                    .setColor("RANDOM");
+                    message.channel.sendEmbed(embed) .then(codes => {
+ 
+                   
+                        const filter = msg => msg.content.startsWith(prefix + 'close');
+                        message.channel.awaitMessages(response => response.content === prefix + 'close', {
+                            max: 1,
+                            time: 20000,
+                            errors: ['time']
+                        })
+                        .then((collect) => {
+                            message.channel.delete();
+                        }) .catch(() => {
+                            codes.delete()
+                                .then(message.channel.send('**Operation has been cancelled.**')) .then((c) => {
+                                    c.delete(4000);
+                                })
+                                   
+                           
+                        })
+ 
+ 
+                    })
+ 
+ 
+           
+    }
+});
+
+client.on('guildCreate', guild => {
+  var embed = new Discord.RichEmbed()
+  .setColor(0x5500ff)
+  .setDescription(**شكراً لك لإضافه البوت الى سيرفرك**)
+      guild.owner.send(embed)
+});
+
+client.on('message', message => {
+     if (message.content === "$bot") {////////////////By:Mal,Team
+     let embed = new Discord.RichEmbed()
+  .setColor("RANDOM")////////////////By:Mal,,Team
+  .addField("Servers:" , client.guilds.size)
+  .addField("Users:", client.users.size)////////////////By:Mal,Team
+  .addField("channels:", client.channels.size)
+  .setTimestamp()
+message.channel.sendEmbed(embed);
+    }
+});
+
+var antispam = require("anti-spam");//npm i anti-spam
+ 
+antispam(client, {
+  warnBuffer: 3, //الحد الأقصى المسموح به من الرسائل لإرسالها في الفاصل الزمني قبل الحصول على تحذير.
+  maxBuffer: 5, // الحد الأقصى المسموح به من الرسائل لإرسالها في الفاصل الزمني قبل الحصول على ميوت.
+  interval: 1000, // مقدار الوقت قبل حصول باند
+  warningMessage: "stop spamming.", // رسالة تحذير اذا سوا سبام!
+  roleMessage: "Muted!!", // الرسالة الي تجي اذا شخص اخذ ميوت
+  roleName: "Muted", // اسم رتبة الميوت
+  maxDuplicatesWarning: 7, // عدد الرسايل الي قبل التحذيرات
+  maxDuplicatesBan: 10, // عدد الرسايل الي يقدر المستخدم يرسلها قبل الميوت
+  time: 10, // عدد الوقت الي يجلس لين تسحب رتبة الميوت من الشخص الحسبة برمجية وليست كتابية 
+});
+
+client.on("message", message => {
+     if (message.author.bot) return;
+
+     let command = message.content.split(" ")[0];
+
+     if (command === "$mute") {
+           if (!message.member.hasPermission('MANAGE_ROLES')) return message.reply(" لا يوجد لديك برمشن 'Manage Roles' ").catch(console.error);
+     let user = message.mentions.users.first();
+     let modlog = client.channels.find('name', 'mute-log');
+     let muteRole = client.guilds.get(message.guild.id).roles.find('name', 'Muted');
+     if (!muteRole) return message.reply(" لا يوجد رتبة الميوت 'Muted' ").catch(console.error);
+     if (message.mentions.users.size < 1) return message.reply(' يجب عليك منشنت شخص اولاً').catch(console.error);
+
+     const embed = new Discord.RichEmbed()
+       .setColor(0x00AE86)
+       .setTimestamp()
+       .addField('الأستعمال:', 'اسكت/احكي')
+       .addField('تم ميوت:', ${user.username}#${user.discriminator} (${user.id}))
+       .addField('بواسطة:', ${message.author.username}#${message.author.discriminator})
+
+      if (!message.guild.member(client.user).hasPermission('MANAGE_ROLES_ORPERMISSIONS')) return message.reply(' لا يوجد لدي برمشن Manage Roles ').catch(console.error);
+
+     if (message.guild.member(user).roles.has(muteRole.id)) {
+   return message.reply(":white_check_mark: .. تم اعطاء العضو ميوت").catch(console.error);
+   } else {
+       message.guild.member(user).addRole(muteRole).then(() => {
+   return message.reply(":white_check_mark: .. تم اعطاء العضو ميوت كتابي").catch(console.error);
+   });
+     }
+
+   };
+
+   });
+
+client.on("message", message => {
+     if (message.author.bot) return;
+
+     let command = message.content.split(" ")[0];
+
+     if (command === "$unmute") {
+           if (!message.member.hasPermission('MANAGE_ROLES')) return message.reply(" لا يوجد لديك برمشن 'Manage Roles' ").catch(console.error);
+     let user = message.mentions.users.first();
+     let modlog = client.channels.find('name', 'mute-log');
+     let muteRole = client.guilds.get(message.guild.id).roles.find('name', 'Muted');
+     if (!muteRole) return message.reply(" لا يوجد لديك رتبه الميوت 'Muted' ").catch(console.error);
+     if (message.mentions.users.size < 1) return message.reply(' يجب عليك منشنت شخص اولاً').catch(console.error);
+     const embed = new Discord.RichEmbed()
+       .setColor(0x00AE86)
+       .setTimestamp()
+       .addField('الأستعمال:', 'اسكت/احكي')
+       .addField('تم فك الميوت عن:', ${user.username}#${user.discriminator} (${user.id}))
+       .addField('بواسطة:', ${message.author.username}#${message.author.discriminator})
+
+     if (!message.guild.member(client.user).hasPermission('MANAGE_ROLES_ORPERMISSIONS')) return message.reply(' لا يوجد لدي برمشن Manage Roles ').catch(console.error);
+
+     if (message.guild.member(user).removeRole(muteRole.id)) {
+   return message.reply(":white_check_mark: .. تم فك الميوت عن الشخص ").catch(console.error);
+   } else {
+       message.guild.member(user).removeRole(muteRole).then(() => {
+   return message.reply(":white_check_mark: .. تم فك الميوت عن الشخص ").catch(console.error);
+   });
+     }
+
+   };
+
+   });
+
+
+
 client.on('ready', () => {
    console.log(`----------------`);
       console.log(`Cyhper Script By : DREAM`);
