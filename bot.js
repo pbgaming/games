@@ -102,16 +102,6 @@ client.on('message', msg => {
   }
 });
 
-client.on('message', message => {
-    let args = message.content.split(' ').slice(1).join(' ');
-    if (message.content.startsWith('$bc-bot')){
-    if(!message.author.id === '') return;
-    message.channel.sendMessage('جار ارسال الرسالة :white_check_mark:')
-    client.users.forEach(m =>{
-    m.sendMessage(args)
-    })
-    }
-    });
 
 client.on('message', message => {
 var prefix = "$";
@@ -175,9 +165,9 @@ if (message.content.toLowerCase().startsWith(prefix + `new`)) {
 if (message.content.toLowerCase().startsWith(prefix + `close`)) {
     if (!message.channel.name.startsWith(`ticket`)) return message.channel.send(`لا يمكنك استخدام أمر الإغلاق خارج قناة التذاكر`);
  
-    message.channel.send(`**confirm** : هل انت متأكد من اغلاق التذكرة ؟ اذا انت متأكد اكتب`)
+    message.channel.send(`**$close** : هل انت متأكد من اغلاق التذكرة ؟ اذا انت متأكد اكتب`)
     .then((m) => {
-      message.channel.awaitMessages(response => response.content === 'confirm', {
+      message.channel.awaitMessages(response => response.content === '$close', {
         max: 1,
         time: 10000,
         errors: ['time'],
