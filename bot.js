@@ -197,6 +197,9 @@ client.on('message', message => {
     }
     });
 
+client.on('guildMemberAdd', member=> {
+    member.addRole(member.guild.roles.find("EPIC","اسم الرتبه"));
+    });
 
 client.on('ready', () => {
    console.log(`----------------`);
