@@ -250,6 +250,23 @@ client.on('message', message => {
     }
 });
 
+client.on("message", message => {
+ var prefix = '$';
+    if (message.content === (prefix + "help")) {
+    message.channel.send("**تم الارسال بلخاص**")
+     const embed = new Discord.RichEmbed() 
+         .setColor("#580e6b")
+         .setThumbnail(message.author.avatarURL)
+         .setDescription(`
+         **
+الاوامر
+   **
+   `)
+   message.author.sendEmbed(embed)
+   
+   }
+   });  
+
 client.on('ready', () => {
    console.log(`----------------`);
       console.log(`Cyhper Script By : DREAM`);
