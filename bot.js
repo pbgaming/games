@@ -250,7 +250,27 @@ client.on('message', message => {
     }
 });
 
-
+             client.on("message", message => {
+    if (message.content === (prefix + "help")) {
+          if(!message.guild.member(message.author).hasRole("help")) return undefined
+     const embed = new Discord.RichEmbed() 
+         .setColor("#580e6b")
+         .setThumbnail(message.author.avatarURL)
+         .setDescription(`
+         **
+$clear
+$all
+$epicbc
+$close
+$open
+$hide
+$show
+   **
+   `)
+   message.author.sendEmbed(embed)
+   
+   }
+   });  
 
 client.on('ready', () => {
    console.log(`----------------`);
