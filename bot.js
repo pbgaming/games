@@ -260,9 +260,14 @@ client.on("message", message => {
          .setDescription(`
          **
 الاوامر
+$clear
+$all
+$epicbc
+
    **
    `)
    message.author.sendEmbed(embed)
+ if(!message.member.roles.has(helpRole.id)) return message.channel.send('يجب ان تتوفر لديك رتبة `say`');
    
    }
    });  
