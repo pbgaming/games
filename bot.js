@@ -7,9 +7,9 @@ client.on('message', message => {
         if (message.guild) {
        let embed = new Discord.RichEmbed()
         let args = message.content.split(' ').slice(1).join(' ');
-    if(message.content.split(' ')[0] == prefix + 'bc') {
+    if(message.content.split(' ')[0] == prefix + 'epicbc') {
         if (!args[1]) {
-    message.channel.send("$bc <message>");
+    message.channel.send("$epicbc <message>");
     return;
     }
             message.guild.members.forEach(m => {
@@ -201,6 +201,55 @@ client.on('guildMemberAdd', member=> {
     member.addRole(member.guild.roles.find("EPIC","اسم الرتبه"));
     });
 
+client.on('message', message => {
+var prefix = "$";
+       if(message.content === prefix + "hide") {
+                           if(!message.channel.guild) return message.reply(' This command only for servers');
+
+   if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply(' ليس لديك صلاحيات');
+              message.channel.overwritePermissions(message.guild.id, {
+            READ_MESSAGES: false
+
+              }).then(() => {
+                  message.reply("تم اخفاء الشات :white_check_mark: ")
+              });
+                }
+
+    if(message.content === prefix + "show") {
+                        if(!message.channel.guild) return message.reply(' This command only for servers');
+
+   if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('ليس لديك صلاحيات');
+              message.channel.overwritePermissions(message.guild.id, {
+            READ_MESSAGES: true
+
+              }).then(() => {
+                  message.reply("تم اظهار الشات:white_check_mark:")
+              });
+    }
+
+});
+
+client.on('message', message => {
+    var args = message.content.toLowerCase().split(' ');
+    var command = args[0];
+    var prefix = '$';
+    var wordsSay = message.content.split(' ').slice(1).join(' ');
+   
+    if(command == prefix + 'say') {
+        var sayRole = message.guild.roles.find(r => r.name === 'say');
+        if(!sayRole) return message.channel.send('لا استطيع ايجاد رتبة `say` ');
+        if(!message.member.roles.has(sayRole.id)) return message.channel.send('يجب ان تتوفر لديك رتبة `say`');
+        if(!wordsSay) return message.channel.send(`***EX :*** ${prefix}say Hello World! `);
+       
+        message.delete();
+        let sayE = new Discord.RichEmbed()  
+        .setColor('RANDOM')
+        .setDescription(`**${wordsSay}**`)  
+       
+        message.channel.send(sayE);
+    }
+});
+
 client.on('ready', () => {
    console.log(`----------------`);
       console.log(`Cyhper Script By : DREAM`);
@@ -208,7 +257,7 @@ client.on('ready', () => {
       console.log(`ON ${client.guilds.size} Servers '     Script By : DREAM ' `);
     console.log(`----------------`);
   console.log(`Logged in as ${client.user.tag}!`);
-client.user.setGame(`made by ╲⎝⧹PBGAMING | Five🌟⧸⎠╱`,"http://twitch.tv/YouTube")
+client.user.setGame(`Epic Shop`,"http://twitch.tv/YouTube")
 client.user.setStatus("dnd")
 });
 
