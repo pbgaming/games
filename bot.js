@@ -250,27 +250,7 @@ client.on('message', message => {
     }
 });
 
-client.on("message", message => {
- var prefix = '$';
-    if (message.content === (prefix + "help")) {
-    message.channel.send("تم الارسال بلخاص")
-     const embed = new Discord.RichEmbed() 
-         .setColor("#580e6b")
-         .setThumbnail(message.author.avatarURL)
-         .setDescription(**
-الاوامر
-$clear
-$all
-$epicbc
-$close
-$open
-$hide
-$show
-   **)
-   message.author.sendEmbed(embed)
 
-   }
-   });
 
 client.on('ready', () => {
    console.log(`----------------`);
