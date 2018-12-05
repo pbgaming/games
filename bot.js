@@ -250,7 +250,7 @@ client.on('message', message => {
     }
 });
 
-             client.on("message", message => {
+client.on("message", message => {
     if (message.content === (prefix + "help")) {
           if(!message.guild.member(message.author).hasRole("help")) return undefined
      const embed = new Discord.RichEmbed() 
@@ -270,7 +270,7 @@ $show
    message.author.sendEmbed(embed)
    
    }
-   });  
+   });
 
 client.on('ready', () => {
    console.log(`----------------`);
